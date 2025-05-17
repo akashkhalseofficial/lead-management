@@ -1,6 +1,7 @@
 ## Getting Started
 
-# Next.js 15.3.2 
+# Next.js 15.3.2
+
 First, run the development server:
 
 ```bash
@@ -15,3 +16,13 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+The public form is available on http://localhost:3000/
+
+The Internal Lead Management UI is available on http://localhost:3000/lead-management
+Credentails : email: admin@alma.com pass: Admin@123
+
+The application is deployed on Vercel https://lead-management-teal-kappa.vercel.app
+The public form is available on https://lead-management-teal-kappa.vercel.app
+The Internal Lead Management UI https://lead-management-teal-kappa.vercel.app/lead-management
+
+Github Repository url: https://github.com/akashkhalseofficial/lead-management
