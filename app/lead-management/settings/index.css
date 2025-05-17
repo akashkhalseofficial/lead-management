@@ -1,0 +1,12 @@
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+}
+
+.settings-container h1 {
+    font-size: 2rem;
+    font-weight: bolder;
+    margin: 3rem 0;
+}
