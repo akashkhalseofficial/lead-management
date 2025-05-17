@@ -26,3 +26,10 @@ The public form is available on https://lead-management-teal-kappa.vercel.app
 The Internal Lead Management UI https://lead-management-teal-kappa.vercel.app/lead-management
 
 Github Repository url: https://github.com/akashkhalseofficial/lead-management
+
+
+There is a basic cookie-based authentication in place.
+
+When the user logs in, a cookie ( httpOnly ) is set with a secure token.
+When the user logs out, the cookie ( httpOnly ) is removed via /logout api endpoint
+There is a basic middleware to protect the /lead-management route.

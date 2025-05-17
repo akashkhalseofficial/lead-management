@@ -71,9 +71,15 @@ function SideNav({
 }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const logOut = () => {
+  const logOut = async () => {
     dispatch(setUser({authenticated: false, email: ""}));
-    router.push("/login");
+    const data = await fetch("/api/logout", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+    });
+    if (data.ok) {
+      router.push("/login");
+    }
   };
   return (
     <div className={`side-nav ${isSideNavOpen ? "active" : ""}`}>

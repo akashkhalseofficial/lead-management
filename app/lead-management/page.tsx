@@ -1,21 +1,38 @@
 "use client";
 
-import {RootState} from "../lib/store";
-import {useSelector} from "react-redux";
-import {useRouter} from "next/navigation";
 import "./index.css";
 import AdminView from "./admin-view";
+import {useState} from "react";
+import {useEffect} from "react";
+import Login from "../login/page";
 
 export default function LeadManagement() {
-  const user = useSelector((state: RootState) => state.user);
-  const router = useRouter();
-  if (user.user.authenticated) {
+  const [loading, setLoading] = useState(true);
+  const [userAuthenticated, setUserAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const res = await fetch("/api/profile");
+      const data = await res.json();
+      if (data.token) {
+        setUserAuthenticated(true);
+      }
+      setLoading(false);
+    };
+    getProfile();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (userAuthenticated) {
     return (
       <div className="admin-view-container">
         <AdminView />
       </div>
     );
   } else {
-    router.push("/login");
+    return <Login />;
   }
 }

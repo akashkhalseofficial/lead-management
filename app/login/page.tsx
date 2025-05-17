@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "./index.css";
+import {useRouter} from "next/navigation";
 export default function Login() {
   const strongPasswordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
@@ -28,9 +29,14 @@ export default function Login() {
     resolver: yupResolver(schema),
   });
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  const navigateToLeadManagement = () => {
-    window.location.href = "/lead-management";
+  const getProfile = async () => {
+    const res = await fetch("/api/profile");
+    const data = await res.json();
+    if (data.token) {
+      router.push("/lead-management");
+    }
   };
 
   const onSubmit = async (formData: {email: string; password: string}) => {
@@ -42,14 +48,14 @@ export default function Login() {
 
     const data = await res.json();
     if (res.ok && data.message === "Login successful") {
-      console.log("Form submission successful");
       dispatch(
         setUser({
           email: formData.email,
           authenticated: true,
         })
       );
-      navigateToLeadManagement();
+      console.log("Form submission successful");
+      getProfile();
     } else {
       console.log("Form submission failed");
       alert("Invalid email or password");

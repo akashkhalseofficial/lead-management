@@ -1,34 +1,43 @@
-import React, {useEffect, useState} from "react";
-import {DataGrid} from "@mui/x-data-grid";
-import {Paper} from "@mui/material";
-import {LeadFields} from "@/app/interface";
-import {updateItemByKey} from "@/app/indexDbService";
-function TableGrid({leadsData}: {leadsData: LeadFields[]}) {
+import React, { useEffect, useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import { Paper } from "@mui/material";
+import { LeadFields } from "@/app/interface";
+import { updateItemByKey } from "@/app/indexDbService";
+function TableGrid({ leadsData }: { leadsData: LeadFields[] }) {
   const columns = [
-    {field: "firstName", headerName: "First Name", width: 100},
-    {field: "lastName", headerName: "Last Name", width: 100},
-    {field: "email", headerName: "Email", width: 230},
-    {field: "linkedInProfile", headerName: "LinkedIn Profile", width: 250},
+    { field: "firstName", headerName: "First Name", flex: 1, minWidth: 100 },
+    { field: "lastName", headerName: "Last Name", flex: 1, minWidth: 100 },
+    { field: "email", headerName: "Email", flex: 1, minWidth: 230 },
+    {
+      field: "linkedInProfile",
+      headerName: "LinkedIn Profile",
+      flex: 1,
+      minWidth: 230,
+    },
     {
       field: "visasOfInterest",
       headerName: "Visas of Interest",
-      width: 100,
+      flex: 1,
+      minWidth: 100,
     },
     {
       field: "status",
       headerName: "Status",
-      width: 100,
+      flex: 1,
+      minWidth: 100,
       editable: true,
     },
     {
       field: "resume",
       headerName: "Resume",
-      width: 100,
+      flex: 1,
+      minWidth: 100,
     },
     {
       field: "additionalInfo",
       headerName: "Additional Info",
-      width: 200,
+      flex: 1,
+      minWidth: 200,
     },
   ];
   const [status, setStatus] = useState<string>("pending");
@@ -62,7 +71,10 @@ function TableGrid({leadsData}: {leadsData: LeadFields[]}) {
     ...row,
   }));
   return (
-    <Paper className="paper">
+    <Paper
+      className="paper"
+      sx={{ height: "auto", width: "100%", overflowX: "auto" }}
+    >
       <div className="status-select">
         <select
           name="status"

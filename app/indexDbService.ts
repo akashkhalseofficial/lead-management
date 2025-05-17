@@ -1,30 +1,31 @@
-import {IDBPDatabase, openDB} from "idb";
+import {openDB} from "idb";
 import {LeadFields} from "./interface";
 
-let dbPromise: Promise<IDBPDatabase<unknown>>;
-if (typeof window !== "undefined") {
-  dbPromise = openDB("lead-management", 1, {
-    upgrade(db) {
-      db.createObjectStore("leads", {
-        autoIncrement: true,
-      });
-      db.createObjectStore("leads_resume", {
-        autoIncrement: true,
-      });
-    },
-  });
-}
+const dbPromise =
+  typeof window !== "undefined"
+    ? openDB("lead-management", 1, {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        upgrade(db) {
+          db.createObjectStore("leads", {
+            autoIncrement: true,
+          });
+          db.createObjectStore("leads_resume", {
+            autoIncrement: true,
+          });
+        },
+      })
+    : undefined;
 
 // Store a file
 export async function storeFile(key: string, file: File) {
   const db = await dbPromise;
-  await db.put("leads_resume", file, key);
+  await db?.put("leads_resume", file, key);
 }
 
 // Get a file
 export async function getFile(key: string): Promise<File | undefined> {
   const db = await dbPromise;
-  return db.get("leads_resume", key);
+  return db?.get("leads_resume", key);
 }
 
 export async function pushObjectToIndexedDB(obj: LeadFields) {
@@ -40,21 +41,21 @@ export async function pushObjectToIndexedDB(obj: LeadFields) {
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {resume, ...rest} = obj;
-  await db.add("leads", {...rest, resume: resume_name});
+  await db?.add("leads", {...rest, resume: resume_name});
 }
 
 export async function getLeadsFromIndexedDB() {
   const db = await dbPromise;
-  return db.getAll("leads");
+  return db?.getAll("leads");
 }
 
 export async function updateItemByKey(id: number, updatedData: LeadFields) {
   const db = await dbPromise;
 
   // Fetch current data
-  const current = await db.get("leads", id);
+  const current = await db?.get("leads", id);
   if (!current) throw new Error(`Item with ID ${id} not found`);
 
   // Update in DB
-  await db.put("leads", updatedData, id); // uses the keyPath ('id') to update
+  await db?.put("leads", updatedData, id); // uses the keyPath ('id') to update
 }
