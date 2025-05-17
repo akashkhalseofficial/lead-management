@@ -18,6 +18,11 @@
   position: relative;
 }
 
+.admin-view .content-container .admin-view-content {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .side-nav-container {
   display: flex;
   flex-direction: column;
